@@ -188,3 +188,92 @@ th {
 .summary-content button:hover {
     background-color: #0056b3;
 }
+/* Calculator Button */
+.calculator-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.calculator-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Calculator Popup */
+.calculator-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.calculator-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: popup 0.3s ease-out;
+}
+
+.calculator-content h2 {
+    margin-bottom: 15px;
+}
+
+#calculatorInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    text-align: right;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.calculator-buttons button {
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f8f9fa;
+}
+
+.calculator-buttons button:hover {
+    background-color: #e9ecef;
+}
+
+#cancelBtn {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+#cancelBtn:hover {
+    background-color: #c82333;
+}
+
+#calculateBtn {
+    background-color: #28a745;
+    color: #fff;
+}
+
+#calculateBtn:hover {
+    background-color: #218838;
+}
