@@ -64,6 +64,42 @@
                 <!-- Expense rows will be inserted here by JavaScript -->
             </tbody>
         </table>
+        <!-- Calculator Button -->
+<button id="calculatorBtn" class="calculator-btn">Calculator</button>
+
+<!-- Calculator Popup -->
+<div id="calculatorPopup" class="calculator-popup">
+    <div class="calculator-content">
+        <h2>Calculator</h2>
+        <input type="text" id="calculatorInput" placeholder="0" readonly>
+        <div class="calculator-buttons">
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>+</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>-</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>*</button>
+            <button>0</button>
+            <button>.</button>
+            <button id="cancelBtn">C</button>
+            <button>/</button>
+
+                <!-- Daily Summary Popup -->
+    <div id="summaryPopup" class="summary-popup">
+        <div class="summary-content">
+            <h2>Daily Summary</h2>
+            <p>Total Sales: ₹<span id="totalSales">0.00</span></p>
+            <p>Total Expenses: ₹<span id="totalExpensesSummary">0.00</span></p>
+            <p>Net Profit/Loss: ₹<span id="netProfitLossSummary">0.00</span></p>
+            <button id="closePopup">Close</button>
+        </div>
+    </div>
     </div>
 
     <!-- Daily Summary Popup -->
