@@ -57,6 +57,73 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.getElementById('summaryPopup').style.display = 'flex';
     }
+    // Store daily data
+let totalSales = 0;
+let totalExpenses = 0;
+
+// Function to update daily summary
+function updateDailySummary() {
+    const salesText = document.getElementById("totalSales");
+    const expensesText = document.getElementById("totalExpenses");
+    const profitLossText = document.getElementById("profitLoss");
+
+    // Get data from localStorage
+    let storedSales = parseFloat(localStorage.getItem("totalSales")) || 0;
+    let storedExpenses = parseFloat(localStorage.getItem("totalExpenses")) || 0;
+    let profitLoss = storedSales - storedExpenses;
+
+    // Display updated values
+    salesText.textContent = `Total Sales: ₹${storedSales.toFixed(2)}`;
+    expensesText.textContent = `Total Expenses: ₹${storedExpenses.toFixed(2)}`;
+    profitLossText.textContent = `Profit/Loss: ₹${profitLoss.toFixed(2)}`;
+}
+
+// Function to add sales
+function addSale(price) {
+    totalSales += price;
+    localStorage.setItem("totalSales", totalSales);
+    updateDailySummary();
+}
+
+// Function to add expense
+function addExpense(amount) {
+    totalExpenses += amount;
+    localStorage.setItem("totalExpenses", totalExpenses);
+    updateDailySummary();
+}
+
+// Handle selling items
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("sell-btn")) {
+        let row = event.target.closest("tr");
+        let price = parseFloat(row.cells[1].textContent.replace("₹", "")) || 0;
+        let quantityCell = row.cells[2];
+        let quantity = parseInt(quantityCell.textContent) || 0;
+
+        if (quantity > 0) {
+            quantity--;
+            quantityCell.textContent = quantity;
+            addSale(price);
+        }
+    }
+});
+
+// Handle adding expenses
+document.getElementById("addExpenseBtn").addEventListener("click", function() {
+    let expenseAmount = parseFloat(document.getElementById("expenseAmount").value) || 0;
+    if (expenseAmount > 0) {
+        addExpense(expenseAmount);
+    }
+});
+
+// Reset data when shop closes
+document.getElementById("closeShopBtn").addEventListener("click", function() {
+    updateDailySummary();
+    alert("Shop closed! Daily summary updated.");
+});
+
+// Initialize summary on page load
+document.addEventListener("DOMContentLoaded", updateDailySummary);
 
     function calculateTotalSales() {
         let totalSales = 0;
