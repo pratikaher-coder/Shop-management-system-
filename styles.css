@@ -131,3 +131,59 @@ th {
 .sell-btn:hover {
     background-color: #0056b3;
 }
+/* Summary Popup */
+.summary-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.summary-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: popup 0.3s ease-out;
+}
+
+@keyframes popup {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.summary-content h2 {
+    margin-bottom: 15px;
+}
+
+.summary-content p {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.summary-content button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.summary-content button:hover {
+    background-color: #0056b3;
+}
