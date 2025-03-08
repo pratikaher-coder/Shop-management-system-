@@ -1,6 +1,6 @@
-let dayCounter = localStorage.getItem('dayCounter') ? parseInt(localStorage.getItem('dayCounter')) : 0;
+let dayCounter = 0;
 let isShopOpen = false;
-let previousStock = JSON.parse(localStorage.getItem('previousStock')) || []; // Load previous stock from localStorage
+let previousStock = []; // Store previous day's stock
 
 // Function to enable/disable all buttons and inputs
 function toggleFunctionality(isEnabled) {
@@ -23,7 +23,6 @@ document.getElementById('openBtn').addEventListener('click', function() {
     if (!isShopOpen) {
         isShopOpen = true;
         dayCounter++;
-        localStorage.setItem('dayCounter', dayCounter); // Save dayCounter to localStorage
         document.getElementById('dayCounter').textContent = `Day: ${dayCounter}`;
         toggleFunctionality(true);
 
@@ -51,7 +50,6 @@ document.getElementById('closeBtn').addEventListener('click', function() {
             const quantity = row.cells[2].textContent;
             previousStock.push({ name, price, quantity });
         });
-        localStorage.setItem('previousStock', JSON.stringify(previousStock)); // Save previousStock to localStorage
 
         // Clear tables
         document.querySelector('#productTable tbody').innerHTML = '';
@@ -209,6 +207,3 @@ function addExpenseToTable(name, price) {
 
     cell3.appendChild(deleteButton);
 }
-
-// Initialize the day counter display
-document.getElementById('dayCounter').textContent = `Day: ${dayCounter}`;
