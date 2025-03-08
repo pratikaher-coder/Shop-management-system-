@@ -1,3 +1,32 @@
+// Function to enable/disable all buttons and inputs
+function toggleFunctionality(isEnabled) {
+    const productInputs = document.querySelectorAll('#productForm input, #productForm button');
+    const expenseInputs = document.querySelectorAll('#expenseForm input, #expenseForm button');
+    const sellButtons = document.querySelectorAll('.sell-btn');
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+
+    // Enable/disable product and expense forms
+    productInputs.forEach(element => element.disabled = !isEnabled);
+    expenseInputs.forEach(element => element.disabled = !isEnabled);
+
+    // Enable/disable sell and delete buttons in tables
+    sellButtons.forEach(button => button.disabled = !isEnabled);
+    deleteButtons.forEach(button => button.disabled = !isEnabled);
+}
+
+// Open Button: Enable functionality
+document.getElementById('openBtn').addEventListener('click', function() {
+    toggleFunctionality(true);
+});
+
+// Close Button: Disable functionality
+document.getElementById('closeBtn').addEventListener('click', function() {
+    toggleFunctionality(false);
+});
+
+// Initially disable all functionality
+toggleFunctionality(false);
+
 // Handle Product Form Submission
 document.getElementById('productForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -11,6 +40,21 @@ document.getElementById('productForm').addEventListener('submit', function(event
         document.getElementById('productForm').reset();
     } else {
         alert('Please fill in all fields for the product.');
+    }
+});
+
+// Handle Expense Form Submission
+document.getElementById('expenseForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const expenseName = document.getElementById('expenseName').value;
+    const expensePrice = document.getElementById('expensePrice').value;
+
+    if (expenseName && expensePrice) {
+        addExpenseToTable(expenseName, expensePrice);
+        document.getElementById('expenseForm').reset();
+    } else {
+        alert('Please fill in all fields for the expense.');
     }
 });
 
@@ -52,4 +96,27 @@ function addProductToTable(name, price, quantity) {
 
     cell4.appendChild(sellButton);
     cell4.appendChild(deleteButton);
+}
+
+// Function to Add Expense to Table
+function addExpenseToTable(name, price) {
+    const table = document.getElementById('expenseTable').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+
+    const cell1 = newRow.insertCell(0);
+    const cell2 = newRow.insertCell(1);
+    const cell3 = newRow.insertCell(2);
+
+    cell1.textContent = name;
+    cell2.textContent = `₹${price}`;
+
+    // Delete Button
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.classList.add('delete-btn');
+    deleteButton.addEventListener('click', function() {
+        table.deleteRow(newRow.rowIndex - 1);
+    });
+
+    cell3.appendChild(deleteButton);
 }
