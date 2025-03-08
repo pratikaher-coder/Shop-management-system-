@@ -64,15 +64,27 @@ th {
     background-color: #f8f9fa;
 }
 
-.delete-btn {
-    background-color: #dc3545;
+.delete-btn, .sell-btn {
     color: #fff;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
+    margin-right: 5px;
+}
+
+.delete-btn {
+    background-color: #dc3545;
 }
 
 .delete-btn:hover {
     background-color: #c82333;
+}
+
+.sell-btn {
+    background-color: #007bff;
+}
+
+.sell-btn:hover {
+    background-color: #0056b3;
 }
