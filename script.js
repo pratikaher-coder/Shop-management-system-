@@ -205,8 +205,15 @@ function addExpenseToTable(name, price) {
     deleteButton.classList.add('delete-btn');
     deleteButton.addEventListener('click', function() {
         table.deleteRow(newRow.rowIndex - 1);
+    });
 
-    // Calculator Button: Show Calculator Popup
+    cell3.appendChild(deleteButton);
+}
+
+// Initialize the day counter display
+document.getElementById('dayCounter').textContent = `Day: ${dayCounter}`;
+
+// Calculator Button: Show Calculator Popup
 document.getElementById('calculatorBtn').addEventListener('click', function() {
     const popup = document.getElementById('calculatorPopup');
     popup.style.display = 'flex';
@@ -243,10 +250,3 @@ calculatorButtons.forEach(button => {
         }
     });
 });
-    });
-
-    cell3.appendChild(deleteButton);
-}
-
-// Initialize the day counter display
-document.getElementById('dayCounter').textContent = `Day: ${dayCounter}`;
