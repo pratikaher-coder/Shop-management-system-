@@ -85,7 +85,7 @@ function calculateTotalSales() {
 
     productRows.forEach(row => {
         const price = parseFloat(row.cells[1].textContent.replace('₹', ''));
-        const initialQuantity = parseInt(row.dataset.initialQuantity || row.cells[2].textContent);
+        const initialQuantity = parseInt(row.dataset.initialQuantity);
         const currentQuantity = parseInt(row.cells[2].textContent);
         const soldQuantity = initialQuantity - currentQuantity;
         totalSales += price * soldQuantity;
