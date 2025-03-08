@@ -1,3 +1,7 @@
+let dayCounter = 0;
+let isShopOpen = false;
+let previousStock = []; // Store previous day's stock
+
 // Function to enable/disable all buttons and inputs
 function toggleFunctionality(isEnabled) {
     const productInputs = document.querySelectorAll('#productForm input, #productForm button');
@@ -14,14 +18,43 @@ function toggleFunctionality(isEnabled) {
     deleteButtons.forEach(button => button.disabled = !isEnabled);
 }
 
-// Open Button: Enable functionality
+// Open Button: Enable functionality and load previous stock
 document.getElementById('openBtn').addEventListener('click', function() {
-    toggleFunctionality(true);
+    if (!isShopOpen) {
+        isShopOpen = true;
+        dayCounter++;
+        document.getElementById('dayCounter').textContent = `Day: ${dayCounter}`;
+        toggleFunctionality(true);
+
+        // Load previous stock
+        if (previousStock.length > 0) {
+            previousStock.forEach(product => {
+                addProductToTable(product.name, product.price, product.quantity);
+            });
+        }
+    }
 });
 
-// Close Button: Disable functionality
+// Close Button: Disable functionality and save current stock
 document.getElementById('closeBtn').addEventListener('click', function() {
-    toggleFunctionality(false);
+    if (isShopOpen) {
+        isShopOpen = false;
+        toggleFunctionality(false);
+
+        // Save current stock
+        const productRows = document.querySelectorAll('#productTable tbody tr');
+        previousStock = [];
+        productRows.forEach(row => {
+            const name = row.cells[0].textContent;
+            const price = row.cells[1].textContent.replace('₹', '');
+            const quantity = row.cells[2].textContent;
+            previousStock.push({ name, price, quantity });
+        });
+
+        // Clear tables
+        document.querySelector('#productTable tbody').innerHTML = '';
+        document.querySelector('#expenseTable tbody').innerHTML = '';
+    }
 });
 
 // Initially disable all functionality
