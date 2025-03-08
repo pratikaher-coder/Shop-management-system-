@@ -35,7 +35,7 @@ document.getElementById('openBtn').addEventListener('click', function() {
     }
 });
 
-// Close Button: Disable functionality and save current stock
+// Close Button: Disable functionality, save current stock, and show summary popup
 document.getElementById('closeBtn').addEventListener('click', function() {
     if (isShopOpen) {
         isShopOpen = false;
@@ -54,11 +54,62 @@ document.getElementById('closeBtn').addEventListener('click', function() {
         // Clear tables
         document.querySelector('#productTable tbody').innerHTML = '';
         document.querySelector('#expenseTable tbody').innerHTML = '';
+
+        // Show the daily summary popup
+        showSummaryPopup();
     }
 });
 
-// Initially disable all functionality
-toggleFunctionality(false);
+// Function to show the daily summary popup
+function showSummaryPopup() {
+    const totalSales = calculateTotalSales();
+    const totalExpenses = calculateTotalExpenses();
+    const netProfitLoss = totalSales - totalExpenses;
+
+    // Update the popup content
+    document.getElementById('totalSales').textContent = totalSales.toFixed(2);
+    document.getElementById('totalExpensesSummary').textContent = totalExpenses.toFixed(2);
+    document.getElementById('netProfitLossSummary').textContent = netProfitLoss.toFixed(2);
+
+    // Show the popup
+    const popup = document.getElementById('summaryPopup');
+    popup.style.display = 'flex';
+}
+
+// Function to calculate total sales
+function calculateTotalSales() {
+    const productRows = document.querySelectorAll('#productTable tbody tr');
+    let totalSales = 0;
+
+    productRows.forEach(row => {
+        const price = parseFloat(row.cells[1].textContent.replace('₹', ''));
+        const initialQuantity = parseInt(row.dataset.initialQuantity || row.cells[2].textContent);
+        const currentQuantity = parseInt(row.cells[2].textContent);
+        const soldQuantity = initialQuantity - currentQuantity;
+        totalSales += price * soldQuantity;
+    });
+
+    return totalSales;
+}
+
+// Function to calculate total expenses
+function calculateTotalExpenses() {
+    const expenseRows = document.querySelectorAll('#expenseTable tbody tr');
+    let totalExpenses = 0;
+
+    expenseRows.forEach(row => {
+        const amount = parseFloat(row.cells[1].textContent.replace('₹', ''));
+        totalExpenses += amount;
+    });
+
+    return totalExpenses;
+}
+
+// Close the popup when the "Close" button is clicked
+document.getElementById('closePopup').addEventListener('click', function() {
+    const popup = document.getElementById('summaryPopup');
+    popup.style.display = 'none';
+});
 
 // Handle Product Form Submission
 document.getElementById('productForm').addEventListener('submit', function(event) {
@@ -104,6 +155,9 @@ function addProductToTable(name, price, quantity) {
     cell1.textContent = name;
     cell2.textContent = `₹${price}`;
     cell3.textContent = quantity;
+
+    // Store the initial quantity in a data attribute
+    newRow.dataset.initialQuantity = quantity;
 
     // Sell Button
     const sellButton = document.createElement('button');
