@@ -131,6 +131,7 @@ th {
 .sell-btn:hover {
     background-color: #0056b3;
 }
+
 /* Summary Popup */
 .summary-popup {
     display: none;
