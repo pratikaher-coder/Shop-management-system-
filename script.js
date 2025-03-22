@@ -1,3 +1,9 @@
+// Check if the user is logged in
+const currentUser = localStorage.getItem('currentUser');
+if (!currentUser) {
+    alert('Please login to access the shop management system.');
+    window.location.href = 'login.html'; // Redirect to the login page
+}
 let dayCounter = localStorage.getItem('dayCounter') ? parseInt(localStorage.getItem('dayCounter')) : 0;
 let isShopOpen = false;
 let previousStock = JSON.parse(localStorage.getItem('previousStock')) || [];
