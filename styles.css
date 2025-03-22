@@ -278,3 +278,72 @@ th {
 #calculateBtn:hover {
     background-color: #218838;
 }
+
+/* Bill Generation Button */
+.bill-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.bill-btn:hover {
+    background-color: #218838;
+}
+
+/* Bill Generation Popup */
+.bill-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.bill-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: popup 0.3s ease-out;
+}
+
+.bill-content h2 {
+    margin-bottom: 15px;
+}
+
+.bill-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.bill-content input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.bill-content button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.bill-content button:hover {
+    background-color: #0056b3;
+}
