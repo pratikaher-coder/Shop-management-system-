@@ -55,6 +55,7 @@
     </style>
 </head>
 <body>
+    <!-- Login Form -->
     <div class="container" id="loginContainer">
         <h2>Login</h2>
         <input type="text" id="loginUsername" placeholder="Username" required>
@@ -63,14 +64,83 @@
         <div class="toggle" onclick="toggleForm('signup')">Don't have an account? Sign up</div>
     </div>
 
+    <!-- Signup Form -->
     <div class="container" id="signupContainer" style="display: none;">
         <h2>Sign Up</h2>
+        <input type="text" id="signupShopName" placeholder="Enter your shop name" required>
         <input type="text" id="signupUsername" placeholder="Username" required>
         <input type="password" id="signupPassword" placeholder="Password" required>
         <button onclick="signup()">Sign Up</button>
         <div class="toggle" onclick="toggleForm('login')">Already have an account? Login</div>
     </div>
 
-    <script src="auth.js"></script>
+    <script>
+        // Function to toggle between login and signup forms
+        function toggleForm(formType) {
+            if (formType === 'login') {
+                document.getElementById('loginContainer').style.display = 'block';
+                document.getElementById('signupContainer').style.display = 'none';
+            } else if (formType === 'signup') {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('signupContainer').style.display = 'block';
+            }
+        }
+
+        // Function to handle user signup
+        function signup() {
+            const shopName = document.getElementById('signupShopName').value;
+            const username = document.getElementById('signupUsername').value;
+            const password = document.getElementById('signupPassword').value;
+
+            if (!shopName || !username || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Check if the user already exists
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userExists = users.some(user => user.username === username);
+
+            if (userExists) {
+                alert('Username already exists. Please choose another.');
+                return;
+            }
+
+            // Save the new user
+            users.push({ shopName, username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Store the shop name and current user
+            localStorage.setItem('currentUser', username);
+            localStorage.setItem('shopName', shopName);
+
+            alert('Signup successful! Redirecting to your shop...');
+            window.location.href = 'index.html'; // Redirect to the shop management page
+        }
+
+        // Function to handle user login
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Check if the user exists
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(user => user.username === username && user.password === password);
+
+            if (user) {
+                alert('Login successful! Redirecting to your shop...');
+                localStorage.setItem('currentUser', username); // Store the logged-in user
+                localStorage.setItem('shopName', user.shopName); // Store the shop name
+                window.location.href = 'index.html'; // Redirect to the shop management page
+            } else {
+                alert('Invalid username or password.');
+            }
+        }
+    </script>
 </body>
 </html>
