@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Management</title>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Management</title>
     <style>
         /* Add this CSS to style the shop name */
         #shopName {
@@ -23,9 +17,7 @@
 <body>
     <!-- Display the shop name -->
     <div id="shopName"></div>
-
-    <!-- Your existing shop management code goes here -->
-
+    
     <script>
         // Check if the user is logged in
         const currentUser = localStorage.getItem('currentUser');
@@ -33,7 +25,6 @@
             alert('Please login to access the shop management system.');
             window.location.href = 'login.html'; // Redirect to the login page
         }
-
         // Display the shop name
         const shopName = localStorage.getItem('shopName');
         if (shopName) {
