@@ -302,4 +302,8 @@ calculatorButtons.forEach(button => {
             calculatorInput.value += value;
         }
     });
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+    localStorage.removeItem('currentUser'); // Clear the current user session
+    window.location.href = 'login.html'; // Redirect to the login page
+});
 });
