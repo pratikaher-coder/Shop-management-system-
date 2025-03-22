@@ -67,6 +67,9 @@
 
         <!-- Calculator Button -->
         <button id="calculatorBtn" class="calculator-btn">Calculator</button>
+
+        <!-- Bill Generation Button -->
+        <button id="generateBillBtn" class="bill-btn">Generate Bill</button>
     </div>
 
     <!-- Daily Summary Popup -->
@@ -104,6 +107,22 @@
                 <button>/</button>
                 <button id="calculateBtn">=</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Bill Generation Popup -->
+    <div id="billPopup" class="bill-popup">
+        <div class="bill-content">
+            <h2>Generate Bill</h2>
+            <form id="billForm">
+                <input type="text" id="customerName" placeholder="Customer Name" required>
+                <div id="billItems">
+                    <!-- Bill items will be inserted here by JavaScript -->
+                </div>
+                <input type="number" id="discount" placeholder="Discount (%)" required>
+                <button type="submit">Generate Bill</button>
+            </form>
+            <button id="closeBillPopup">Close</button>
         </div>
     </div>
 
