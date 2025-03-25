@@ -4,28 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Management</title>
-    <style>
-        /* Add this CSS to style the shop name */
-        #shopName {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Display the shop name -->
-    <div id="shopName"></div>
-    
-    <script>
-        // Check if the user is logged in
-        const currentUser = localStorage.getItem('currentUser');
-        if (!currentUser) {
-            alert('Please login to access the shop management system.');
-            window.location.href = 'login.html'; // Redirect to the login page
-        }
-    <!-- Open/Close Buttons and Day Counter -->
+    <div class="container">
+        <h1>Shop Management</h1>
+
+        <!-- Open/Close Buttons and Day Counter -->
         <div class="control-buttons">
             <button id="openBtn">Open</button>
             <button id="closeBtn">Close</button>
@@ -140,9 +125,7 @@
             <button id="closeBillPopup">Close</button>
         </div>
     </div>
-    <button id="logoutBtn" style="position: absolute; top: 10px; right: 10px;">Logout</button>
 
     <script src="script.js"></script>
-    
 </body>
 </html>
