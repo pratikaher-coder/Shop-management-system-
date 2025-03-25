@@ -63,20 +63,6 @@ document.getElementById('closeBtn').addEventListener('click', function() {
     }
 });
 
-// Function to show the daily summary popup
-function showSummaryPopup() {
-    const totalSales = calculateTotalSales();
-    const totalExpenses = calculateTotalExpenses();
-    const netProfitLoss = totalSales - totalExpenses;
-
-    document.getElementById('totalSales').textContent = totalSales.toFixed(2);
-    document.getElementById('totalExpensesSummary').textContent = totalExpenses.toFixed(2);
-    document.getElementById('netProfitLossSummary').textContent = netProfitLoss.toFixed(2);
-
-    const popup = document.getElementById('summaryPopup');
-    popup.style.display = 'flex';
-}
-
 // Function to calculate total sales
 function calculateTotalSales() {
     const productRows = document.querySelectorAll('#productTable tbody tr');
@@ -108,7 +94,18 @@ function calculateTotalExpenses() {
 
     return totalExpenses;
 }
+function showSummaryPopup() {
+    const totalSales = calculateTotalSales();
+    const totalExpenses = calculateTotalExpenses();
+    const netProfitLoss = totalSales - totalExpenses;
 
+    document.getElementById('totalSales').textContent = totalSales.toFixed(2);
+    document.getElementById('totalExpensesSummary').textContent = totalExpenses.toFixed(2);
+    document.getElementById('netProfitLossSummary').textContent = netProfitLoss.toFixed(2);
+
+    const popup = document.getElementById('summaryPopup');
+    popup.style.display = 'flex';
+}
 // Close the popup when the "Close" button is clicked
 document.getElementById('closePopup').addEventListener('click', function() {
     const popup = document.getElementById('summaryPopup');
