@@ -3,144 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Signup</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-        h2 {
-            margin-bottom: 20px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        .toggle {
-            margin-top: 10px;
-            color: #007bff;
-            cursor: pointer;
-        }
-        .toggle:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Shop Management</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Login Form -->
-    <div class="container" id="loginContainer">
-        <h2>Login</h2>
-        <input type="text" id="loginUsername" placeholder="Username" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <button onclick="login()">Login</button>
-        <div class="toggle" onclick="toggleForm('signup')">Don't have an account? Sign up</div>
+    <div class="container">
+        <h1>Shop Management</h1>
+
+        <!-- Open/Close Buttons and Day Counter -->
+        <div class="control-buttons">
+            <button id="openBtn">Open</button>
+            <button id="closeBtn">Close</button>
+            <div id="dayCounter">Day: 0</div>
+        </div>
+
+        <!-- Product Form -->
+        <h2 class="small-title">Add Product</h2>
+        <form id="productForm">
+            <input type="text" id="productName" placeholder="Product Name" required disabled>
+            <input type="number" id="productPrice" placeholder="Product Price (₹)" required disabled>
+            <input type="number" id="productQuantity" placeholder="Product Quantity" required disabled>
+            <button type="submit" disabled>Add Product</button>
+        </form>
+
+        <!-- Expense Form -->
+        <h2 class="small-title">Add Expense</h2>
+        <form id="expenseForm">
+            <input type="text" id="expenseName" placeholder="Expense Name" required disabled>
+            <input type="number" id="expensePrice" placeholder="Expense Amount (₹)" required disabled>
+            <button type="submit" disabled>Add Expense</button>
+        </form>
+
+        <!-- Product Table -->
+        <h2 class="small-title">Products</h2>
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price (₹)</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Product rows will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+
+        <!-- Expense Table -->
+        <h2 class="small-title">Expenses</h2>
+        <table id="expenseTable">
+            <thead>
+                <tr>
+                    <th>Expense Name</th>
+                    <th>Amount (₹)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Expense rows will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+
+        <!-- Calculator Button -->
+        <button id="calculatorBtn" class="calculator-btn">Calculator</button>
+
+        <!-- Bill Generation Button -->
+        <button id="generateBillBtn" class="bill-btn">Generate Bill</button>
     </div>
 
-    <!-- Signup Form -->
-    <div class="container" id="signupContainer" style="display: none;">
-        <h2>Sign Up</h2>
-        <input type="text" id="signupShopName" placeholder="Enter your shop name" required>
-        <input type="text" id="signupUsername" placeholder="Username" required>
-        <input type="password" id="signupPassword" placeholder="Password" required>
-        <button onclick="signup()">Sign Up</button>
-        <div class="toggle" onclick="toggleForm('login')">Already have an account? Login</div>
+    <!-- Daily Summary Popup -->
+    <div id="summaryPopup" class="summary-popup">
+        <div class="summary-content">
+            <h2>Daily Summary</h2>
+            <p>Total Sales: ₹<span id="totalSales">0.00</span></p>
+            <p>Total Expenses: ₹<span id="totalExpensesSummary">0.00</span></p>
+            <p>Net Profit/Loss: ₹<span id="netProfitLossSummary">0.00</span></p>
+            <button id="closePopup">Close</button>
+        </div>
     </div>
 
-    <script>
-        // Function to toggle between login and signup forms
-        function toggleForm(formType) {
-            if (formType === 'login') {
-                document.getElementById('loginContainer').style.display = 'block';
-                document.getElementById('signupContainer').style.display = 'none';
-            } else if (formType === 'signup') {
-                document.getElementById('loginContainer').style.display = 'none';
-                document.getElementById('signupContainer').style.display = 'block';
-            }
-        }
+    <!-- Calculator Popup -->
+    <div id="calculatorPopup" class="calculator-popup">
+        <div class="calculator-content">
+            <h2>Calculator</h2>
+            <input type="text" id="calculatorInput" placeholder="0" readonly>
+            <div class="calculator-buttons">
+                <button>7</button>
+                <button>8</button>
+                <button>9</button>
+                <button>+</button>
+                <button>4</button>
+                <button>5</button>
+                <button>6</button>
+                <button>-</button>
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>*</button>
+                <button>0</button>
+                <button>.</button>
+                <button id="cancelBtn">C</button>
+                <button>/</button>
+                <button id="calculateBtn">=</button>
+            </div>
+        </div>
+    </div>
 
-        // Function to handle user signup
-        function signup() {
-            const shopName = document.getElementById('signupShopName').value;
-            const username = document.getElementById('signupUsername').value;
-            const password = document.getElementById('signupPassword').value;
+    <!-- Bill Generation Popup -->
+    <div id="billPopup" class="bill-popup">
+        <div class="bill-content">
+            <h2>Generate Bill</h2>
+            <form id="billForm">
+                <input type="text" id="customerName" placeholder="Customer Name" required>
+                <div id="billItems">
+                    <!-- Bill items will be inserted here by JavaScript -->
+                </div>
+                <input type="number" id="discount" placeholder="Discount (%)" required>
+                <button type="submit">Generate Bill</button>
+            </form>
+            <button id="closeBillPopup">Close</button>
+        </div>
+    </div>
 
-            if (!shopName || !username || !password) {
-                alert('Please fill in all fields.');
-                return;
-            }
-
-            // Check if the user already exists
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const userExists = users.some(user => user.username === username);
-
-            if (userExists) {
-                alert('Username already exists. Please choose another.');
-                return;
-            }
-
-            // Save the new user
-            users.push({ shopName, username, password });
-            localStorage.setItem('users', JSON.stringify(users));
-
-            // Store the shop name and current user
-            localStorage.setItem('currentUser', username);
-            localStorage.setItem('shopName', shopName);
-
-            alert('Signup successful! Redirecting to your shop...');
-            window.location.href = 'index.html'; // Redirect to the shop management page
-        }
-
-        // Function to handle user login
-        function login() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!username || !password) {
-                alert('Please fill in all fields.');
-                return;
-            }
-
-            // Check if the user exists
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(user => user.username === username && user.password === password);
-
-            if (user) {
-                alert('Login successful! Redirecting to your shop...');
-                localStorage.setItem('currentUser', username); // Store the logged-in user
-                localStorage.setItem('shopName', user.shopName); // Store the shop name
-                window.location.href = 'index.html'; // Redirect to the shop management page
-            } else {
-                alert('Invalid username or password.');
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
