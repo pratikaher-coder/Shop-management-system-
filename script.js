@@ -45,6 +45,7 @@ document.getElementById('closeBtn').addEventListener('click', function() {
     if (isShopOpen) {
         isShopOpen = false;
         toggleFunctionality(false);
+    }
 
         const productRows = document.querySelectorAll('#productTable tbody tr');
         previousStock = [];
