@@ -1,4 +1,3 @@
-
 let dayCounter = localStorage.getItem('dayCounter') ? parseInt(localStorage.getItem('dayCounter')) : 0;
 let isShopOpen = false;
 let previousStock = JSON.parse(localStorage.getItem('previousStock')) || [];
@@ -303,8 +302,4 @@ calculatorButtons.forEach(button => {
             calculatorInput.value += value;
         }
     });
-    document.getElementById('logoutBtn').addEventListener('click', function() {
-    localStorage.removeItem('currentUser'); // Clear the current user session
-    window.location.href = 'login.html'; // Redirect to the login page
-});
 });
