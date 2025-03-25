@@ -65,8 +65,14 @@ function showSummaryPopup() {
     document.getElementById('totalExpensesSummary').textContent = totalExpenses.toFixed(2);
     document.getElementById('netProfitLossSummary').textContent = netProfitLoss.toFixed(2);
 
-    const popup = document.getElementById('summaryPopup');
-    popup.style.display = 'flex';
+    document.getElementById('summaryPopup').style.display = 'flex';
+}
+public class Main {
+    
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+    
 }
 
 // Function to calculate total sales
