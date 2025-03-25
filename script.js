@@ -6,6 +6,8 @@ if (!localStorage.getItem('currentShop')) {
 // Get shop info
 const shopInfo = JSON.parse(localStorage.getItem('currentShop'));
 document.getElementById('shopNameHeader').textContent = shopInfo.name;
+
+//day counter
 let dayCounter = localStorage.getItem('dayCounter') ? parseInt(localStorage.getItem('dayCounter')) : 0;
 let isShopOpen = false;
 let previousStock = JSON.parse(localStorage.getItem('previousStock')) || [];
