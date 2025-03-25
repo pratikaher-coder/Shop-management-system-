@@ -176,9 +176,9 @@ function addExpenseToTable(description, amount) {
 // Function to handle selling a product
 function sellProduct(button) {
     const row = button.closest('tr');
-    const quantityCell = row.cells[2];
+    const quantityCell = row.querySelector('.current-quantity');
     let quantity = parseInt(quantityCell.textContent);
-
+    
     if (quantity > 0) {
         quantity--;
         quantityCell.textContent = quantity;
