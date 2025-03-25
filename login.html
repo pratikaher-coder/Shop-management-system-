@@ -3,180 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Login</title>
-    <style>
-        /* EXACT MATCH TO YOUR SHOP THEME */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .auth-container {
-            background: white;
-            width: 320px;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            border-top: 4px solid #28a745; /* Your shop's green accent */
-        }
-        h2 {
-            color: #2c3e50;
-            margin-top: 0;
-            text-align: center;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #28a745; /* Your green */
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 15px;
-        }
-        button:hover {
-            background-color: #218838; /* Your darker green */
-        }
-        .toggle-form {
-            text-align: center;
-            margin-top: 20px;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-        .toggle-form a {
-            color: #3498db; /* Your blue */
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .toggle-form a:hover {
-            text-decoration: underline;
-        }
-        .hidden {
-            display: none;
-        }
-        .error {
-            color: #e74c3c; /* Your red */
-            font-size: 13px;
-            margin-top: 5px;
-        }
-    </style>
+    <title>Shop Management - Login</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="auth-container">
+    <div class="login-container">
+        <h1>Shop Management</h1>
+        
         <!-- Login Form -->
-        <div id="loginForm">
-            <h2>Shop Login</h2>
+        <div id="loginForm" class="auth-form">
+            <h2>Login</h2>
             <input type="text" id="loginUsername" placeholder="Username" required>
             <input type="password" id="loginPassword" placeholder="Password" required>
-            <div id="loginError" class="error"></div>
-            <button onclick="handleLogin()">Login</button>
-            <div class="toggle-form">
-                Don't have an account? <a onclick="showForm('signup')">Sign up</a>
-            </div>
+            <button id="loginBtn">Login</button>
+            <p class="auth-switch">Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
         </div>
-
+        
         <!-- Signup Form -->
-        <div id="signupForm" class="hidden">
-            <h2>Shop Registration</h2>
-            <input type="text" id="shopName" placeholder="Shop Name" required>
+        <div id="signupForm" class="auth-form" style="display:none">
+            <h2>Sign Up</h2>
             <input type="text" id="signupUsername" placeholder="Username" required>
             <input type="password" id="signupPassword" placeholder="Password" required>
-            <div id="signupError" class="error"></div>
-            <button onclick="handleSignup()">Register</button>
-            <div class="toggle-form">
-                Already have an account? <a onclick="showForm('login')">Login</a>
-            </div>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <button id="signupBtn">Create Account</button>
+            <p class="auth-switch">Already have an account? <a href="#" id="showLogin">Log in</a></p>
         </div>
     </div>
 
-    <script>
-        // Form Toggling
-        function showForm(formType) {
-            document.getElementById('loginForm').classList.toggle('hidden', formType !== 'login');
-            document.getElementById('signupForm').classList.toggle('hidden', formType !== 'signup');
-            clearErrors();
-        }
-
-        function clearErrors() {
-            document.getElementById('loginError').textContent = '';
-            document.getElementById('signupError').textContent = '';
-        }
-
-        // User Registration
-        function handleSignup() {
-            const shopName = document.getElementById('shopName').value.trim();
-            const username = document.getElementById('signupUsername').value.trim();
-            const password = document.getElementById('signupPassword').value.trim();
-            const errorEl = document.getElementById('signupError');
-
-            if (!shopName || !username || !password) {
-                errorEl.textContent = 'All fields are required';
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem('shopUsers')) || [];
-            
-            if (users.some(user => user.username === username)) {
-                errorEl.textContent = 'Username already exists';
-                return;
-            }
-
-            users.push({ 
-                shopName, 
-                username, 
-                password,
-                createdAt: new Date().toISOString() 
-            });
-            
-            localStorage.setItem('shopUsers', JSON.stringify(users));
-            alert('Registration successful! Please login.');
-            showForm('login');
-        }
-
-        // User Login
-        function handleLogin() {
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            const errorEl = document.getElementById('loginError');
-
-            if (!username || !password) {
-                errorEl.textContent = 'Both fields are required';
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem('shopUsers')) || [];
-            const user = users.find(u => u.username === username && u.password === password);
-
-            if (user) {
-                localStorage.setItem('currentShop', JSON.stringify({
-                    name: user.shopName,
-                    username: user.username,
-                    loggedInAt: new Date().toISOString()
-                }));
-                window.location.href = 'index.html'; // Your shop dashboard
-            } else {
-                errorEl.textContent = 'Invalid username or password';
-            }
-        }
-
-        // Auto-redirect if already logged in
-        if (localStorage.getItem('currentShop')) {
-            window.location.href = 'index.html';
-        }
-    </script>
+    <script src="auth.js"></script>
 </body>
 </html>
