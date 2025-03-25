@@ -168,6 +168,8 @@
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
             const errorElement = document.getElementById('loginError');
+            localStorage.setItem('dayCounter', 1);          // Reset counter on login
+            localStorage.setItem('shopOpen', 'false');      // Initialize shop state
 
             // Validation
             if (!username || !password) {
