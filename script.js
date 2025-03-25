@@ -142,20 +142,22 @@ document.getElementById('expenseForm').addEventListener('submit', function(event
 function addProductToTable(name, price, quantity) {
     const productTableBody = document.querySelector('#productTable tbody');
     const newRow = document.createElement('tr');
-
+    
+    // Store both initial and current quantity
     newRow.innerHTML = `
         <td>${name}</td>
-        <td>₹${price}</td>
-        <td>${quantity}</td>
-        <td><button class="sell-btn" onclick="sellProduct(this)">Sell</button></td>
-        <td><button class="delete-btn" onclick="deleteProduct(this)">Delete</button></td>
+        <td>₹${parseFloat(price).toFixed(2)}</td>
+        <td class="current-quantity">${quantity}</td>
+        <td class="initial-quantity" style="display:none">${quantity}</td>
+        <td>
+            <button class="sell-btn" onclick="sellProduct(this)">Sell</button>
+            <button class="delete-btn" onclick="deleteProduct(this)">Delete</button>
+        </td>
     `;
-
-    // Store the initial quantity in a data attribute
-    newRow.dataset.initialQuantity = quantity;
-
+    
     productTableBody.appendChild(newRow);
 }
+
 
 // Function to add an expense to the expense table
 function addExpenseToTable(description, amount) {
