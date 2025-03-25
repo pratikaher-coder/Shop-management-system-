@@ -161,7 +161,103 @@ function showSummaryPopup() {
 
     document.getElementById('summaryPopup').style.display = 'flex';
 }
+// Bill Generation Functionality
+document.getElementById('generateBillBtn').addEventListener('click', function() {
+    if (!isShopOpen) {
+        alert('Please open the shop first!');
+        return;
+    }
+    
+    const billPopup = document.getElementById('billPopup');
+    const billItems = document.getElementById('billItems');
+    
+    billItems.innerHTML = '';
+    let totalAmount = 0;
+    
+    products.forEach(product => {
+        if (product.sold > 0) {
+            const itemAmount = product.price * product.sold;
+            totalAmount += itemAmount;
+            
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'bill-item';
+            itemDiv.innerHTML = `
+                <p>${product.name} - ₹${product.price.toFixed(2)} × ${product.sold} = ₹${itemAmount.toFixed(2)}</p>
+            `;
+            billItems.appendChild(itemDiv);
+        }
+    });
+    
+    if (totalAmount === 0) {
+        billItems.innerHTML = '<p>No items sold yet!</p>';
+    } else {
+        const totalDiv = document.createElement('div');
+        totalDiv.className = 'bill-total';
+        totalDiv.innerHTML = `<h3>Subtotal: ₹${totalAmount.toFixed(2)}</h3>`;
+        billItems.appendChild(totalDiv);
+    }
+    
+    billPopup.style.display = 'flex';
+});
 
+document.getElementById('billForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const customerName = document.getElementById('customerName').value;
+    const discount = parseFloat(document.getElementById('discount').value) || 0;
+    let totalAmount = products.reduce((sum, p) => sum + (p.price * p.sold), 0);
+    let discountedAmount = totalAmount * (1 - discount/100);
+    
+    alert(`BILL RECEIPT\n
+Customer: ${customerName}\n
+${products.filter(p => p.sold > 0).map(p => 
+    `${p.name} - ${p.sold} × ₹${p.price.toFixed(2)} = ₹${(p.sold * p.price).toFixed(2)}`
+).join('\n')}\n
+Subtotal: ₹${totalAmount.toFixed(2)}\n
+Discount: ${discount}%\n
+Total: ₹${discountedAmount.toFixed(2)}`);
+    
+    document.getElementById('billPopup').style.display = 'none';
+    this.reset();
+});
+
+document.getElementById('closeBillPopup').addEventListener('click', function() {
+    document.getElementById('billPopup').style.display = 'none';
+});
+// Calculator Functionality
+document.getElementById('calculatorBtn').addEventListener('click', function() {
+    document.getElementById('calculatorPopup').style.display = 'flex';
+    document.getElementById('calculatorInput').value = '';
+});
+
+document.querySelector('#calculatorPopup .calculator-content').addEventListener('click', function(e) {
+    e.stopPropagation();
+});
+
+document.getElementById('calculatorPopup').addEventListener('click', function() {
+    this.style.display = 'none';
+});
+
+const calculatorButtons = document.querySelectorAll('.calculator-buttons button');
+calculatorButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const input = document.getElementById('calculatorInput');
+        const value = this.textContent;
+        
+        if (value === 'C') {
+            input.value = '';
+        } else if (value === '=') {
+            try {
+                input.value = eval(input.value);
+            } catch {
+                input.value = 'Error';
+                setTimeout(() => input.value = '', 1500);
+            }
+        } else {
+            input.value += value;
+        }
+    });
+});
 // Update day counter display
 function updateDayCounter() {
     document.getElementById('dayCounter').textContent = `Day: ${dayCounter}`;
