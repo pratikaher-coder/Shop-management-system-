@@ -1,3 +1,24 @@
+// Check authentication
+document.addEventListener('DOMContentLoaded', function() {
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    
+    if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // Display username
+    document.getElementById('usernameDisplay').textContent = currentUser.username;
+    
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+    });
+    
+    // Rest of your existing initialization code...
+});
 // Shop Management Script - Fixed Version
 let dayCounter = localStorage.getItem('dayCounter') ? parseInt(localStorage.getItem('dayCounter')) : 0;
 let isShopOpen = false;
