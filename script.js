@@ -1,13 +1,3 @@
-// Check authentication
-if (!localStorage.getItem('currentShop')) {
-    window.location.href = 'login.html';
-}
-
-// Get shop info
-const shopInfo = JSON.parse(localStorage.getItem('currentShop'));
-document.getElementById('shopNameHeader').textContent = shopInfo.name;
-
-//day counter
 let dayCounter = localStorage.getItem('dayCounter') ? parseInt(localStorage.getItem('dayCounter')) : 0;
 let isShopOpen = false;
 let previousStock = JSON.parse(localStorage.getItem('previousStock')) || [];
@@ -312,8 +302,4 @@ calculatorButtons.forEach(button => {
             calculatorInput.value += value;
         }
     });
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('currentShop');
-    window.location.href = 'login.html';
-});
 });
