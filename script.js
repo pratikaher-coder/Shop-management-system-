@@ -1,3 +1,11 @@
+// Check authentication
+if (!localStorage.getItem('currentShop')) {
+    window.location.href = 'login.html';
+}
+
+// Get shop info
+const shopInfo = JSON.parse(localStorage.getItem('currentShop'));
+document.getElementById('shopNameHeader').textContent = shopInfo.name;
 let dayCounter = localStorage.getItem('dayCounter') ? parseInt(localStorage.getItem('dayCounter')) : 0;
 let isShopOpen = false;
 let previousStock = JSON.parse(localStorage.getItem('previousStock')) || [];
