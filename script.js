@@ -1,11 +1,3 @@
-// Check authentication
-if (!localStorage.getItem('currentShop')) {
-    window.location.href = 'login.html';
-}
-
-// Get shop info
-const shopInfo = JSON.parse(localStorage.getItem('currentShop'));
-document.getElementById('shopNameHeader').textContent = shopInfo.name;
 let dayCounter = localStorage.getItem('dayCounter') ? parseInt(localStorage.getItem('dayCounter')) : 0;
 let isShopOpen = false;
 let previousStock = JSON.parse(localStorage.getItem('previousStock')) || [];
@@ -45,7 +37,6 @@ document.getElementById('closeBtn').addEventListener('click', function() {
     if (isShopOpen) {
         isShopOpen = false;
         toggleFunctionality(false);
-    }
 
         const productRows = document.querySelectorAll('#productTable tbody tr');
         previousStock = [];
@@ -63,6 +54,20 @@ document.getElementById('closeBtn').addEventListener('click', function() {
         showSummaryPopup();
     }
 });
+
+// Function to show the daily summary popup
+function showSummaryPopup() {
+    const totalSales = calculateTotalSales();
+    const totalExpenses = calculateTotalExpenses();
+    const netProfitLoss = totalSales - totalExpenses;
+
+    document.getElementById('totalSales').textContent = totalSales.toFixed(2);
+    document.getElementById('totalExpensesSummary').textContent = totalExpenses.toFixed(2);
+    document.getElementById('netProfitLossSummary').textContent = netProfitLoss.toFixed(2);
+
+    const popup = document.getElementById('summaryPopup');
+    popup.style.display = 'flex';
+}
 
 // Function to calculate total sales
 function calculateTotalSales() {
@@ -95,18 +100,7 @@ function calculateTotalExpenses() {
 
     return totalExpenses;
 }
-function showSummaryPopup() {
-    const totalSales = calculateTotalSales();
-    const totalExpenses = calculateTotalExpenses();
-    const netProfitLoss = totalSales - totalExpenses;
 
-    document.getElementById('totalSales').textContent = totalSales.toFixed(2);
-    document.getElementById('totalExpensesSummary').textContent = totalExpenses.toFixed(2);
-    document.getElementById('netProfitLossSummary').textContent = netProfitLoss.toFixed(2);
-
-    const popup = document.getElementById('summaryPopup');
-    popup.style.display = 'flex';
-}
 // Close the popup when the "Close" button is clicked
 document.getElementById('closePopup').addEventListener('click', function() {
     const popup = document.getElementById('summaryPopup');
@@ -308,8 +302,4 @@ calculatorButtons.forEach(button => {
             calculatorInput.value += value;
         }
     });
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('currentShop');
-    window.location.href = 'login.html';
-});
 });
