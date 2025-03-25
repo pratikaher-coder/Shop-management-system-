@@ -310,4 +310,8 @@ calculatorButtons.forEach(button => {
             calculatorInput.value += value;
         }
     });
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('currentShop');
+    window.location.href = 'login.html';
+});
 });
