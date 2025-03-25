@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Authentication</title>
+    <title>Shop Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,22 +14,24 @@
             height: 100vh;
             margin: 0;
         }
-        .container {
+        .auth-container {
             background: white;
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             width: 300px;
-            text-align: center;
         }
-        h2 {
-            margin-top: 0;
-            color: #333;
+        .form-group {
+            margin-bottom: 1rem;
         }
-        input {
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .form-group input {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
+            padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
@@ -42,69 +44,100 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
         }
         button:hover {
             background-color: #45a049;
         }
-        .toggle {
-            margin-top: 15px;
-            font-size: 14px;
+        .toggle-form {
+            text-align: center;
+            margin-top: 1rem;
         }
-        .toggle a {
+        .toggle-form a {
             color: #4CAF50;
             cursor: pointer;
-            text-decoration: underline;
         }
         .hidden {
             display: none;
         }
+        .error {
+            color: red;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
-    <!-- Login Form -->
-    <div class="container" id="loginContainer">
-        <h2>Shop Login</h2>
-        <input type="text" id="loginUsername" placeholder="Username" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <button onclick="login()">Login</button>
-        <div class="toggle">
-            Don't have an account? <a onclick="showSignup()">Sign up</a>
+    <div class="auth-container">
+        <!-- Login Form -->
+        <div id="loginForm">
+            <h2>Shop Login</h2>
+            <div class="form-group">
+                <label for="loginUsername">Username</label>
+                <input type="text" id="loginUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <div id="loginError" class="error"></div>
+            <button onclick="login()">Login</button>
+            <div class="toggle-form">
+                Don't have an account? <a onclick="showSignup()">Sign up</a>
+            </div>
         </div>
-    </div>
 
-    <!-- Signup Form -->
-    <div class="container hidden" id="signupContainer">
-        <h2>Shop Registration</h2>
-        <input type="text" id="signupShopName" placeholder="Shop Name" required>
-        <input type="text" id="signupUsername" placeholder="Username" required>
-        <input type="password" id="signupPassword" placeholder="Password" required>
-        <button onclick="signup()">Register</button>
-        <div class="toggle">
-            Already have an account? <a onclick="showLogin()">Login</a>
+        <!-- Signup Form -->
+        <div id="signupForm" class="hidden">
+            <h2>Shop Registration</h2>
+            <div class="form-group">
+                <label for="shopName">Shop Name</label>
+                <input type="text" id="shopName" required>
+            </div>
+            <div class="form-group">
+                <label for="signupUsername">Username</label>
+                <input type="text" id="signupUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" required>
+            </div>
+            <div id="signupError" class="error"></div>
+            <button onclick="signup()">Register</button>
+            <div class="toggle-form">
+                Already have an account? <a onclick="showLogin()">Login</a>
+            </div>
         </div>
     </div>
 
     <script>
         // Toggle between forms
         function showSignup() {
-            document.getElementById('loginContainer').classList.add('hidden');
-            document.getElementById('signupContainer').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+            clearErrors();
         }
 
         function showLogin() {
-            document.getElementById('signupContainer').classList.add('hidden');
-            document.getElementById('loginContainer').classList.remove('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            clearErrors();
+        }
+
+        function clearErrors() {
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('signupError').textContent = '';
         }
 
         // User registration
         function signup() {
-            const shopName = document.getElementById('signupShopName').value;
-            const username = document.getElementById('signupUsername').value;
-            const password = document.getElementById('signupPassword').value;
+            const shopName = document.getElementById('shopName').value.trim();
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const errorElement = document.getElementById('signupError');
 
+            // Validation
             if (!shopName || !username || !password) {
-                alert('Please fill all fields');
+                errorElement.textContent = 'All fields are required';
                 return;
             }
 
@@ -113,22 +146,34 @@
             
             // Check if username exists
             if (users.some(user => user.username === username)) {
-                alert('Username already exists');
+                errorElement.textContent = 'Username already exists';
                 return;
             }
 
             // Add new user
-            users.push({ shopName, username, password });
-            localStorage.setItem('shopUsers', JSON.stringify(users));
+            users.push({ 
+                shopName, 
+                username, 
+                password,
+                createdAt: new Date().toISOString()
+            });
             
+            localStorage.setItem('shopUsers', JSON.stringify(users));
             alert('Registration successful! Please login.');
             showLogin();
         }
 
         // User login
         function login() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorElement = document.getElementById('loginError');
+
+            // Validation
+            if (!username || !password) {
+                errorElement.textContent = 'Both fields are required';
+                return;
+            }
 
             // Get users from storage
             const users = JSON.parse(localStorage.getItem('shopUsers')) || [];
@@ -140,14 +185,20 @@
                 // Store current session
                 localStorage.setItem('currentShop', JSON.stringify({
                     name: user.shopName,
-                    username: user.username
+                    username: user.username,
+                    loggedInAt: new Date().toISOString()
                 }));
                 
                 // Redirect to shop page
-                window.location.href = 'shop.html';
+                window.location.href = 'index.html';
             } else {
-                alert('Invalid credentials');
+                errorElement.textContent = 'Invalid username or password';
             }
+        }
+
+        // Check if already logged in
+        if (localStorage.getItem('currentShop')) {
+            window.location.href = 'index.html';
         }
     </script>
 </body>
